@@ -1,4 +1,4 @@
-# ===== src/frameworks_and_drivers/storage/local_image_storage.py =====
+# ===== src/franmewoks_and_drivers/storage/local_image_storage.py =====
 import os
 from src.use_cases.interfaces.storage import ImageStorage
 

@@ -1,7 +1,8 @@
-# ===== src/usecase/add_product.py =====
+# ===== src/use_cases/add_product.py =====
 from dataclasses import dataclass
 from typing import Optional
 from src.entities.product import Product
+from src.entities.currency import Currency
 from src.use_cases.interfaces.product_repo import ProductRepository
 from src.use_cases.interfaces.storage import ImageStorage
 
@@ -11,6 +12,7 @@ class AddProductInput:
     Product_name: str
     price: float
     quantity: int
+    currency: Currency
     photo_filename: Optional[str] = None
     photo_content: Optional[bytes] = None
 
@@ -24,14 +26,12 @@ class AddProductOutput:
 
 class AddProductUsecase:
     def __init__(self, product_repository: ProductRepository, image_storage: ImageStorage) -> None:
-        # Inject the abstract repository/storage — never import a concrete class here
         self.repo = product_repository
         self.image_storage = image_storage
 
     def execute(self, input_data: AddProductInput) -> AddProductOutput:
         try:
             photo_url = None
-
             if input_data.photo_filename and input_data.photo_content:
                 photo_url = self.image_storage.save(
                     input_data.photo_filename,
@@ -42,6 +42,7 @@ class AddProductUsecase:
                 product_name=input_data.Product_name,
                 price=input_data.price,
                 quantity=input_data.quantity,
+                currency=input_data.currency,
                 photo_url=photo_url,
             )
 

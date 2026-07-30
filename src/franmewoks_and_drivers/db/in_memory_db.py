@@ -18,3 +18,10 @@ class InMemoryDB:
 
     def list_all(self) -> list[Product]:
         return self.data
+
+    def update(self, product: Product) -> None:
+        for i, p in enumerate(self.data):
+            if p.id_product == product.id_product:
+                self.data[i] = product
+                return
+        raise ValueError("Product not found for update")

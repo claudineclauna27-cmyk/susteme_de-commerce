@@ -1,4 +1,4 @@
-# ===== src/interface_adapter/repository/product_repository_impl.py =====
+# ===== src/interface_adapters/repositories/product_repo.py =====
 import uuid
 from src.use_cases.interfaces.product_repo import ProductRepository
 from src.entities.product import Product
@@ -16,3 +16,6 @@ class ProductRepositoryImpl(ProductRepository):
 
     def list_all(self) -> list[Product]:
         return self.db.list_all()
+
+    def update(self, product: Product) -> None:
+        self.db.update(product)
