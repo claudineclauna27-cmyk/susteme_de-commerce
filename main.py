@@ -1,21 +1,16 @@
-from src.product import Product
 
-# Cas valide
-p1 = Product(id_product=1, product_name="Laptop", quantity=5, price=999.99)
-print(p1)
+# ===== src/frameworks_and_drivers/api/main.py =====
+import uvicorn
+from fastapi import FastAPI
+from src.franmewoks_and_drivers.api.routes.product_routes import router as product_routes
 
-# Cas invalides pour tester les erreurs
-try:
-    p2 = Product(id_product=2, product_name="", quantity=5, price=100.0)
-except ValueError as e:
-    print("Error:", e)
 
-try:
-    p3 = Product(id_product=3, product_name="Phone", quantity=5, price=-10.0)
-except ValueError as e:
-    print("Error:", e)
+def create_app() -> FastAPI:
+    app = FastAPI()
+    app.include_router(product_routes, prefix="/api", tags=["products"])
+    return app
 
-try:
-    p4 = Product(id_product=4, product_name="Tablet", quantity=0, price=200.0)
-except ValueError as e:
-    print("Error:", e)
+
+if __name__ == "__main__":
+    app = create_app()
+    uvicorn.run(app, host="127.0.0.1", port=8004, reload=False)
