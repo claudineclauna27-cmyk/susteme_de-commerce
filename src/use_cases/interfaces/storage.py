@@ -7,3 +7,7 @@ class ImageStorage(ABC):
     def save(self, filename: str, content: bytes) -> str:
         """Sauvegarde l'image et retourne son URL/chemin d'accès."""
         ...
+
+    @abstractmethod
+    def delete(self, photo_url: str) -> None:
+        ...

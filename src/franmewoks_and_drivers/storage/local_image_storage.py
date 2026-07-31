@@ -13,3 +13,7 @@ class LocalImageStorage(ImageStorage):
         with open(filepath, "wb") as f:
             f.write(content)
         return filepath
+
+    def delete(self, photo_url: str) -> None:
+        if photo_url and os.path.exists(photo_url):
+            os.remove(photo_url)

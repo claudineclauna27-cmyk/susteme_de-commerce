@@ -9,14 +9,15 @@ from src.franmewoks_and_drivers.storage.local_image_storage import LocalImageSto
 from src.interface_adapters.repositories.product_repo import ProductRepositoryImpl
 from src.interface_adapters.presenters.presenters import (
     AddProductPresenter,
-    UpdateProductPresenter,
+    UpdateProductPresenter, DeleteProductPresenter
 )
 from src.interface_adapters.controllers.controllers import (
     AddProductController,
-    UpdateProductController,
+    UpdateProductController, DeleteProductController
 )
 from src.use_cases.add_product import AddProductUsecase
 from src.use_cases.update_product import UpdateProductUsecase
+from src.use_cases.delete_product import DeleteProductUsecase
 
 router = APIRouter()
 
@@ -31,6 +32,10 @@ _add_controller = AddProductController(_add_use_case, _add_presenter)
 _update_use_case = UpdateProductUsecase(_repository, _image_storage)
 _update_presenter = UpdateProductPresenter()
 _update_controller = UpdateProductController(_update_use_case, _update_presenter)
+
+_delete_use_case = DeleteProductUsecase(_repository, _image_storage)   # ← ajoute _image_storage ici
+_delete_presenter = DeleteProductPresenter()
+_delete_controller = DeleteProductController(_delete_use_case, _delete_presenter)
 
 
 @router.post("/products")
@@ -75,3 +80,7 @@ async def update_product(
         photo_filename=photo_filename,
         photo_content=photo_content,
     )
+
+@router.delete("/products/{id_product}")
+def delete_product(id_product: uuid.UUID):
+    return _delete_controller.handle(id_product=id_product)

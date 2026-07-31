@@ -19,3 +19,6 @@ class ProductRepositoryImpl(ProductRepository):
 
     def update(self, product: Product) -> None:
         self.db.update(product)
+
+    def delete(self, id_product: uuid.UUID) -> None:
+        self.db.delete(id_product)

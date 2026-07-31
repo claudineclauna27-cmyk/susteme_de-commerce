@@ -5,6 +5,9 @@ from src.use_cases.add_product import AddProductInput, AddProductUsecase
 from src.use_cases.update_product import UpdateProductInput, UpdateProductUsecase
 from src.entities.currency import Currency
 from src.interface_adapters.presenters.presenters import AddProductPresenter, UpdateProductPresenter
+from src.use_cases.delete_product import DeleteProductInput, DeleteProductUsecase
+from src.interface_adapters.presenters.presenters import DeleteProductPresenter
+
 
 
 class AddProductController:
@@ -57,5 +60,20 @@ class UpdateProductController:
             photo_filename=photo_filename,
             photo_content=photo_content,
         )
+        output = self.use_case.execute(input_data)
+        return self.presenter.present(output)
+
+
+from src.use_cases.delete_product import DeleteProductInput, DeleteProductUsecase
+from src.interface_adapters.presenters.presenters import DeleteProductPresenter
+
+
+class DeleteProductController:
+    def __init__(self, use_case: DeleteProductUsecase, presenter: DeleteProductPresenter) -> None:
+        self.use_case = use_case
+        self.presenter = presenter
+
+    def handle(self, id_product: uuid.UUID) -> dict:
+        input_data = DeleteProductInput(id_product=id_product)
         output = self.use_case.execute(input_data)
         return self.presenter.present(output)

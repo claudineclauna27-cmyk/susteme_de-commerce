@@ -1,6 +1,7 @@
 # ===== src/interface_adapter/presenters/add_product_presenter.py =====
 from src.use_cases.add_product import AddProductOutput
 from src.use_cases.update_product import UpdateProductOutput
+from src.use_cases.delete_product import DeleteProductOutput
 
 
 class AddProductPresenter:
@@ -40,4 +41,11 @@ class UpdateProductPresenter:
                 },
             }
         return {"success": False, "message": output.message}
-    
+
+
+class DeleteProductPresenter:
+    def present(self, output: DeleteProductOutput) -> dict:
+        return {
+            "success": output.success,
+            "message": output.message,
+        }

@@ -25,3 +25,10 @@ class InMemoryDB:
                 self.data[i] = product
                 return
         raise ValueError("Product not found for update")
+
+    def delete(self, id_product: uuid.UUID) -> None:
+        for i, p in enumerate(self.data):
+            if p.id_product == id_product:
+                del self.data[i]
+                return
+        raise ValueError("Product not found for delete ")
