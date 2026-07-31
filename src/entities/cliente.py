@@ -1,18 +1,20 @@
+# ===== src/entities/cliente.py =====
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
 class Cliente:
-    id_client : int 
-    cliente_name : str 
-    gmail : str 
-    password : str 
-    adress : str 
+    cliente_name: str
+    gmail: str
+    password: str
+    adresse: str
+    id_cliente: Optional[int] = None
 
     def __post_init__(self):
         if not self.cliente_name or not self.cliente_name.strip():
-            raise ValueError("You must add your Name ")
+            raise ValueError("please enter the name")
         if not self.gmail or "@" not in self.gmail:
-            raise ValueError ("Invalid gmail")
+            raise ValueError("invalid email")
         if not self.password:
-            raise ValueError ("Password is required ")
+            raise ValueError("password is required")
