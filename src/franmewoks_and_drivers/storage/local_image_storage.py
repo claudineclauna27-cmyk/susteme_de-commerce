@@ -12,8 +12,13 @@ class LocalImageStorage(ImageStorage):
         filepath = os.path.join(self.upload_dir, filename)
         with open(filepath, "wb") as f:
             f.write(content)
-        return filepath
+
+        # Retourne une URL accessible via navigateur, pas un chemin disque brut
+        url_path = f"/{self.upload_dir}/{filename}".replace("\\", "/")
+        return url_path
 
     def delete(self, photo_url: str) -> None:
-        if photo_url and os.path.exists(photo_url):
-            os.remove(photo_url)
+        # photo_url ressemble à "/uploads/products/riz.jpg"
+        filepath = photo_url.lstrip("/")
+        if filepath and os.path.exists(filepath):
+            os.remove(filepath)
