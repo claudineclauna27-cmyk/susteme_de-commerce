@@ -77,3 +77,17 @@ class DeleteProductController:
         input_data = DeleteProductInput(id_product=id_product)
         output = self.use_case.execute(input_data)
         return self.presenter.present(output)
+
+
+from src.use_cases.list_products import ListProductsUsecase
+from src.interface_adapters.presenters.presenters import ListProductsPresenter
+
+
+class ListProductsController:
+    def __init__(self, use_case: ListProductsUsecase, presenter: ListProductsPresenter) -> None:
+        self.use_case = use_case
+        self.presenter = presenter
+
+    def handle(self) -> dict:
+        output = self.use_case.execute()
+        return self.presenter.present(output)

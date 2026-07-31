@@ -84,3 +84,19 @@ async def update_product(
 @router.delete("/products/{id_product}")
 def delete_product(id_product: uuid.UUID):
     return _delete_controller.handle(id_product=id_product)
+
+
+
+from src.use_cases.list_products import ListProductsUsecase
+from src.interface_adapters.presenters.presenters import ListProductsPresenter
+from src.interface_adapters.controllers.controllers import ListProductsController
+
+# ... câblage existant, ajoute :
+_list_use_case = ListProductsUsecase(_repository)
+_list_presenter = ListProductsPresenter()
+_list_controller = ListProductsController(_list_use_case, _list_presenter)
+
+
+@router.get("/products")
+def list_products():
+    return _list_controller.handle()
